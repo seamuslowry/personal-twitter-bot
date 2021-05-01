@@ -19,7 +19,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Zip up and publish the layer
+      - name: Find regions and versions; delete
         run: |
           BRANCH=${GITHUB_REF##*/}
           RELEASE_LAYER="twitter-bot-$BRANCH"
