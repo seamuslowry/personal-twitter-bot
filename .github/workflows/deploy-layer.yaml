@@ -28,17 +28,17 @@ jobs:
           python-version: 3.8
 
       - name: Zip it all up and upload to S3
-        env:
-          release_id: ${{ format('twitter-bot-{0}.zip', github.head_ref )}}
-          release_layer: ${{ format('twitter-bot-', ${GITHUB_REF#refs/heads/} )}}
         run: |
+          BRANCH=${GITHUB_REF#refs/tags/}
+          RELEASE_ID = "twitter-bot-$BRANCH.zip"
+          RELEASE_LAYER = "twitter-bot-$BRANCH.zip"
           mkdir python_deps
           pip install -r requirements.txt -t python_deps
           # pip install . -t  python_deps
           # zip it up
-          zip --quiet -r $release_id python_deps
+          zip --quiet -r $RELEASE_ID python_deps
 
           # copy the file to S3 and install it in lambda layers
-          aws lambda publish-layer-version --layer-name $release_layer --zip-file fileb://$release_id --compatible-runtimes python3.8
+          aws lambda publish-layer-version --layer-name $RELEASE_LAYER --zip-file fileb://$RELEASE_ID --compatible-runtimes python3.8
 
 # TODO add a step that will re-deploy the functions when the layer is updated
