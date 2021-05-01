@@ -39,6 +39,6 @@ jobs:
           zip --quiet -r $release_id python_deps
 
           # copy the file to S3 and install it in lambda layers
-          aws lambda publish-layer-version --layer-name $release_layer --zip-file $release_id --compatible-runtimes python3.8
+          aws lambda publish-layer-version --layer-name $release_layer --zip-file fileb://$release_id --compatible-runtimes python3.8
 
 # TODO add a step that will re-deploy the functions when the layer is updated
