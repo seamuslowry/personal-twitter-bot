@@ -1,9 +1,9 @@
-name: Deploy Lambda Layer
+name: Delete Lambda Layer
 
 on: push
 
 jobs:
-  deploy:
+  delete:
     name: Delete Unneeded Layer from AWS Lambda
     runs-on: ubuntu-latest
 
