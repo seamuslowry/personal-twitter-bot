@@ -1,0 +1,39 @@
+name: Deploy Lambda Layer
+
+on:
+  delete:
+    paths: [requirements.txt]
+
+jobs:
+  deploy:
+    name: Delete Unneeded Layer from AWS Lambda
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # For more info: https://github.com/aws-actions/configure-aws-credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Zip up and publish the layer
+        run: |
+          BRANCH=${GITHUB_REF##*/}
+          RELEASE_LAYER="twitter-bot-$BRANCH"
+
+          regions=$(aws ssm get-parameters-by-path --region "us-east-1" --path /aws/service/global-infrastructure/services/lambda/regions --query 'Parameters[].Value' --output text | tr '[:blank:]' '\n' | grep -v -e ^cn- -e ^us-gov- | sort -r)
+
+          for region in $regions;
+          do
+            versions=$(aws lambda list-layer-versions --layer-name "$RELEASE_LAYER" --region "$region" --output text --query LayerVersions[].Version | tr '[:blank:]' '\n')
+            for version in $versions;
+            do
+              echo "deleting arn:aws:lambda:$region:*:layer:$RELEASE_LAYER:$version"
+              aws lambda delete-layer-version --region "$region" --layer-name "$RELEASE_LAYER" --version "$version" > /dev/null
+            done
+          done
