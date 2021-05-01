@@ -24,9 +24,9 @@ jobs:
           BRANCH=${GITHUB_REF##*/}
           RELEASE_LAYER="twitter-bot-$BRANCH"
 
-          versions=$(aws lambda list-layer-versions --layer-name "$RELEASE_LAYER" --region us-east-2 --output text --query LayerVersions[].Version | tr '[:blank:]' '\n')
+          versions=$(aws lambda list-layer-versions --layer-name "$RELEASE_LAYER" --output text --query LayerVersions[].Version | tr '[:blank:]' '\n')
           for version in $versions;
           do
             echo "deleting arn:aws:lambda:$region:*:layer:$RELEASE_LAYER:$version"
-            aws lambda delete-layer-version --region us-east-2 --layer-name "$RELEASE_LAYER" --version "$version"
+            aws lambda delete-layer-version --layer-name "$RELEASE_LAYER" --version "$version"
           done
