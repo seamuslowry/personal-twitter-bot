@@ -29,9 +29,9 @@ jobs:
 
       - name: Zip it all up and upload to S3
         run: |
-          BRANCH=${GITHUB_REF#refs/tags/}
+          # BRANCH=${GITHUB_REF#refs/tags/} TODO get good branch name
           RELEASE_ID="twitter-bot-$GITHUB_SHA.zip"
-          RELEASE_LAYER="twitter-bot-$BRANCH"
+          RELEASE_LAYER="twitter-bot
           mkdir python_deps
           pip install -r requirements.txt -t python_deps
           # pip install . -t  python_deps
