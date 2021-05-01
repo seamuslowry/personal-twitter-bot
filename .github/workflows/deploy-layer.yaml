@@ -2,7 +2,7 @@ name: Deploy Lambda Layer
 
 on:
   push:
-    paths: [requ irements.txt]
+    paths: [requirements.txt]
 
 jobs:
   deploy:
