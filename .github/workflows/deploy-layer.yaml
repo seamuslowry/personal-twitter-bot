@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Zip it all up and publish the layer
+      - name: Zip up and publish the layer
         run: |
           BRANCH=${GITHUB_REF##*/}
           RELEASE_ID="twitter-bot-$GITHUB_SHA.zip"
