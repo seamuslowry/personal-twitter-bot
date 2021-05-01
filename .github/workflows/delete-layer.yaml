@@ -22,10 +22,10 @@ jobs:
 
       - name: Find regions and versions; delete
         run: |
-          BRANCH=${GITHUB_REF##*/}
+          BRANCH=${{ github.event.ref##*/ }}
           RELEASE_LAYER="twitter-bot-$BRANCH"
 
-          echo "Clean up for branch ${{ github.event.ref }}"
+          echo $BRANCH
 
           versions=$(aws lambda list-layer-versions --layer-name "$RELEASE_LAYER" --output text --query LayerVersions[].Version | tr '[:blank:]' '\n')
           for version in $versions;
