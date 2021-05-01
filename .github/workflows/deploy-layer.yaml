@@ -29,8 +29,10 @@ jobs:
 
       - name: Zip it all up and upload to S3
         run: |
+          BRANCH=${GITHUB_REF##*/}
+          echo $BRANCH
           RELEASE_ID="twitter-bot-$GITHUB_SHA.zip"
-          RELEASE_LAYER="twitter-bot
+          RELEASE_LAYER="twitter-bot"
           mkdir python_deps
           pip install -r requirements.txt -t python_deps
           # pip install . -t  python_deps
