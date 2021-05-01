@@ -22,7 +22,8 @@ jobs:
 
       - name: Find regions and versions; delete
         run: |
-          BRANCH=${{ github.event.ref##*/ }}
+          FULL_BRANCH=${{ github.event.ref }}
+          BRANCH=${FULL_BRANCH##*/}
           RELEASE_LAYER="twitter-bot-$BRANCH"
 
           echo $BRANCH
