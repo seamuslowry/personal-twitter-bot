@@ -1,0 +1,45 @@
+name: Deploy Lambda Layer
+
+on:
+  push:
+    branches: [master]
+    paths: [requirements.txt]
+
+jobs:
+  deploy:
+    name: Upload Layer to AWS Lambda
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # For more info: https://github.com/aws-actions/configure-aws-credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Zip it all up and upload to S3
+        env:
+          release_id: ${{ format('twitter-bot-{0}.zip', github.head_ref )}}
+          release_layer: ${{ format('twitter-bot-{0}', github.head_ref )}}
+        run: |
+          mkdir python_deps
+          pip install -r requirements.txt -t python_deps
+          pip install . -t  python_deps
+          echo building release $release_id
+          # zip it up
+          zip --quiet -r $release_id python_deps
+
+          # copy the file to S3 and install it in lambda layers
+          aws lambda publish-layer-version --layer-name $release_layer --zip-file $release_id --compatible-runtimes python3.8
+
+# TODO add a step that will re-deploy the functions when the layer is updated
