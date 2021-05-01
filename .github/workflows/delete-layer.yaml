@@ -23,12 +23,15 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF##*/}
           RELEASE_LAYER="twitter-bot-$BRANCH"
+          echo $RELEASE_LAYER
 
           regions=$(aws ssm get-parameters-by-path --region "us-east-1" --path /aws/service/global-infrastructure/services/lambda/regions --query 'Parameters[].Value' --output text | tr '[:blank:]' '\n' | grep -v -e ^cn- -e ^us-gov- | sort -r)
+          echo $regions
 
           for region in $regions;
           do
             versions=$(aws lambda list-layer-versions --layer-name "$RELEASE_LAYER" --region "$region" --output text --query LayerVersions[].Version | tr '[:blank:]' '\n')
+            echo $versions
             for version in $versions;
             do
               echo "deleting arn:aws:lambda:$region:*:layer:$RELEASE_LAYER:$version"
