@@ -1,8 +1,6 @@
 name: Deploy Lambda Layer
 
-on:
-  delete:
-    paths: [requirements.txt]
+on: push
 
 jobs:
   deploy:
