@@ -24,6 +24,8 @@ jobs:
           BRANCH=${GITHUB_REF##*/}
           RELEASE_LAYER="twitter-bot-$BRANCH"
 
+          aws --version
+
           versions=$(aws lambda list-layer-versions --layer-name "$RELEASE_LAYER" --output text --query LayerVersions[].Version | tr '[:blank:]' '\n')
           for version in $versions;
           do
