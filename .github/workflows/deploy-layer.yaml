@@ -27,16 +27,14 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Zip it all up and upload to S3
+      - name: Zip it all up and publish the layer
         run: |
           BRANCH=${GITHUB_REF##*/}
           RELEASE_ID="twitter-bot-$GITHUB_SHA.zip"
           RELEASE_LAYER="twitter-bot-$BRANCH"
-          mkdir python_deps
-          pip install -r requirements.txt -t python_deps
-          # pip install . -t  python_deps
-          # zip it up
-          zip --quiet -r $RELEASE_ID python_deps
+          mkdir python
+          pip install -r requirements.txt -t python
+          zip --quiet -r $RELEASE_ID python
 
           # copy the file to S3 and install it in lambda layers
           aws lambda publish-layer-version --layer-name $RELEASE_LAYER --zip-file fileb://$RELEASE_ID --compatible-runtimes python3.8
