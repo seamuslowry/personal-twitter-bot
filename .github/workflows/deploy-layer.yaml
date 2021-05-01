@@ -2,7 +2,7 @@ name: Deploy Lambda Layer
 
 on:
   push:
-    branches: [master]
+    branches: [feature/deploy_layer]
     paths: [requirements.txt]
 
 jobs:
