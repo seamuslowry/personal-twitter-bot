@@ -1,9 +1,10 @@
 name: Delete Lambda Layer
 
-on: delete
+on: push
 
 jobs:
   delete:
+    if: github.event.ref_type == 'branch'
     name: Delete Unneeded Layer from AWS Lambda
     runs-on: ubuntu-latest
 
@@ -23,6 +24,8 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF##*/}
           RELEASE_LAYER="twitter-bot-$BRANCH"
+
+          echo "Clean up for branch ${{ github.event.ref }}"
 
           echo $(aws --version)
 
