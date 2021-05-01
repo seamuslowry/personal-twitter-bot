@@ -1,6 +1,6 @@
 name: Delete Lambda Layer
 
-on: delete
+on: push
 
 jobs:
   delete:
