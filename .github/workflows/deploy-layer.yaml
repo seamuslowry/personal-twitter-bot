@@ -30,7 +30,7 @@ jobs:
       - name: Zip it all up and upload to S3
         env:
           release_id: ${{ format('twitter-bot-{0}.zip', github.head_ref )}}
-          release_layer: ${{ format('twitter-bot-', GITHUB_REF#refs/heads/ )}}
+          release_layer: ${{ format('twitter-bot-', ${GITHUB_REF#refs/heads/} )}}
         run: |
           mkdir python_deps
           pip install -r requirements.txt -t python_deps
