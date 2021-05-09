@@ -2,6 +2,7 @@ name: Deploy Lambda Layer
 
 on:
   push:
+    branches: [main]
     paths: [requirements.txt]
 
 jobs:
@@ -28,9 +29,8 @@ jobs:
 
       - name: Zip up and publish the layer
         run: |
-          BRANCH=${GITHUB_REF##*/}
           RELEASE_ID="twitter-bot-$GITHUB_SHA.zip"
-          RELEASE_LAYER="twitter-bot-$BRANCH"
+          RELEASE_LAYER="twitter-bot-main"
           mkdir python
           pip install -r requirements.txt -t python
           zip --quiet -r $RELEASE_ID python
