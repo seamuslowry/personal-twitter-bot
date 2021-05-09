@@ -16,3 +16,4 @@ def favorite_tweets(api):
                       and not mention.favorited]
     for mention in needs_favorite:
         print(mention.text)
+        # api.create_favorite(mention.id) # TODO ensure this works
