@@ -7,7 +7,6 @@ def get_approved_users():
     return commentjson.load(f)
 
 
-
 def favorite_tweets(api):
     approved_list = get_approved_users()
 
