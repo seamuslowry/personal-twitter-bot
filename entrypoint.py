@@ -6,7 +6,7 @@ api = get_api()
 print(api)
 
 
-def entry_favorite_tweets():
+def entry_favorite_tweets(event, context):
     favorite_tweets(api)
     return {
         "statusCode": 200
