@@ -15,5 +15,4 @@ def favorite_tweets(api):
                       if mention.user.id in approved_list
                       and not mention.favorited]
     for mention in needs_favorite:
-        print(mention.text)
-        # api.create_favorite(mention.id) # TODO ensure this works
+        api.create_favorite(mention.id)
