@@ -6,7 +6,7 @@ on:
     paths:
       - "requirements.txt"
       - "favorite_tweets/**"
-      - "entrypoint.sh"
+      - "entrypoint.py"
 jobs:
   build:
     runs-on: ubuntu-latest
