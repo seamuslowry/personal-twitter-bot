@@ -1,12 +1,12 @@
 name: Deploy favoriting tweets function
 on:
   push:
-    # branches:
-    #   - main
-    # paths:
-    #   - "requirements.txt"
-    #   - "favorite_tweets/**"
-    #   - "entrypoint.py"
+    branches:
+      - main
+    paths:
+      - "requirements.txt"
+      - "favorite_tweets/**"
+      - "entrypoint.py"
 jobs:
   build:
     runs-on: ubuntu-latest
