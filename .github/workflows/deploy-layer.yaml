@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Upload Layer to AWS Lambda
     runs-on: ubuntu-latest
+    env:
+      RELEASE_LAYER: ${{ secrets.LAYER_ARN }}
 
     steps:
       - name: Checkout
@@ -30,7 +32,6 @@ jobs:
       - name: Zip up and publish the layer
         run: |
           RELEASE_ID="twitter-bot-$GITHUB_SHA.zip"
-          RELEASE_LAYER="twitter-bot-main"
           mkdir python
           pip install -r requirements.txt -t python
           zip --quiet -r $RELEASE_ID python
