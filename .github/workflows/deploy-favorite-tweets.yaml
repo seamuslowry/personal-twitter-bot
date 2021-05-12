@@ -3,9 +3,9 @@ on:
   push:
     # branches:
     #   - main
-    paths:
-      - "requirements.txt"
-      - "favorite_tweets/**"
+    # paths:
+    #   - "requirements.txt"
+    #   - "favorite_tweets/**"
 jobs:
   build:
     runs-on: ubuntu-latest
