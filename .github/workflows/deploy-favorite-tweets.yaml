@@ -1,0 +1,28 @@
+name: Deploy favoriting tweets function
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "favorite_tweets/**"
+      - "entrypoint.py"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      LAYER_ARN: ${{ secrets.LAYER_ARN }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Deploy code to Lambda
+        run: |
+          zip -r code.zip get_api favorite_tweets entrypoint.py
+          aws lambda update-function-code --function-name "favorite-tweets" --zip-file fileb://code.zip
+          aws lambda update-function-configuration --function-name "favorite-tweets" --handler "entrypoint.entry_favorite_tweets"
