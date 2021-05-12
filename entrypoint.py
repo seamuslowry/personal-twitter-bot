@@ -6,6 +6,9 @@ api = get_api()
 
 def entry_favorite_tweets():
     favorite_tweets(api)
+    return {
+        "statusCode": 200
+    }
 
 
 entry_favorite_tweets()
