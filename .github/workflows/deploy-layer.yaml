@@ -39,6 +39,6 @@ jobs:
 
       - name: Update Lambda Layers
         run: |
-          LATEST_LAYER_VERSION=$(aws lambda list-layer-versions --layer-name $RELEASE_LAYER --region us-east-2 --query 'Layers[0].Version')
+          LATEST_LAYER_VERSION=$(aws lambda list-layer-versions --layer-name $RELEASE_LAYER --region us-east-2 --query 'LayerVersions[0].Version')
           echo $LATEST_LAYER_VERSION
           aws lambda update-function-configuration --function-name "favorite-tweets" --layers "${RELEASE_LAYER}:${LATEST_LAYER_VERSION}"
