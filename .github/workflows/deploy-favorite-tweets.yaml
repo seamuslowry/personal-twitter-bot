@@ -25,3 +25,4 @@ jobs:
         run: |
           zip -r code.zip get_api favorite_tweets entrypoint.py
           aws lambda update-function-code --function-name "favorite-tweets" --zip-file fileb://code.zip
+          aws lambda update-function-configuration --function-name "favorite-tweets" --handler "entrypoint.entry_favorite_tweets"
