@@ -3,8 +3,6 @@ from favorite_tweets.favorite_tweets import favorite_tweets
 
 api = get_api()
 
-print(api)
-
 
 def entry_favorite_tweets(event, context):
     favorite_tweets(api)
