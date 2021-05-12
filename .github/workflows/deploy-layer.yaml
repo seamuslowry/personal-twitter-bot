@@ -35,10 +35,9 @@ jobs:
           pip install -r requirements.txt -t python
           zip --quiet -r $RELEASE_ID python
 
-          # copy the file to S3 and install it in lambda layers
           aws lambda publish-layer-version --layer-name $RELEASE_LAYER --zip-file fileb://$RELEASE_ID --compatible-runtimes python3.8
 
       - name: Update Lambda Layers
         run: |
-          LATEST_LAYER_VERSION=$(aws lambda list-layer-versions --layer-name <layer name> --region us-east-1 --query 'LayerVersions[0].LayerVersionArn')
+          LATEST_LAYER_VERSION=$(aws lambda list-layer-versions --layer-name ${LAYER_ARN} --region us-east-1 --query 'LayerVersions[0].LayerVersionArn')
           aws lambda update-function-configuration --function-name "favorite-tweets" --layers "${LAYER_ARN}:${LATEST_LAYER_VERSION}"
