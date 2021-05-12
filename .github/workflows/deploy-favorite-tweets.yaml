@@ -24,4 +24,4 @@ jobs:
       - name: Deploy code to Lambda
         run: |
           zip -r code.zip get_api favorite_tweets entrypoint.py
-          aws lambda update-function-code --function-name "${INPUT_LAMBDA_FUNCTION_NAME}" --zip-file fileb://code.zip
+          aws lambda update-function-code --function-name "favorite-tweets" --zip-file fileb://code.zip
